@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/hstntn/set-stuff-bot/issues"
   },
-  "homepage": "https://github.com/hstntn/set-stuff-bot#readme"
+  "homepage": "https://github.com/hstntn/set-stuff-bot#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "request": "^2.75.0"
+  }
 }
