@@ -1,0 +1,19 @@
+{
+  "name": "set-stuff-bot",
+  "version": "0.1.0",
+  "description": "A Telegram bot where you can set variables, and recall them at any time",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hstntn/set-stuff-bot.git"
+  },
+  "author": "Harry Stanton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hstntn/set-stuff-bot/issues"
+  },
+  "homepage": "https://github.com/hstntn/set-stuff-bot#readme"
+}
