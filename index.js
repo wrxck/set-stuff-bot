@@ -16,20 +16,20 @@ app.use(bodyParser.json())
 app.post('/', function (req, res) {
   try {
     if ('text' in req.body['message']) {
-      var message = req.body['message']['text']
+      var message = req.body['message']['text'].split(' ')
     } else if ('chat' in req.body['message']) {
       if ('text' in req.body['message']['chat']) {
-        var message = req.body['message']['chat']['text']
+        var message = req.body['message']['chat']['text'].split(' ')
       }
     } else {
-      var message = undefined
+      var message = [undefined]
     }
   } catch (err) {
     console.log('Invalid data')
-    var message = undefined
+    var message = [undefined]
   }
 
-  switch (command[0]) {
+  switch (message[0]) {
     case '/start':
     case '/help':
       sendMessage(req.body['message']['chat']['id'], 'Hi, I\'m Set Stuff Bot.')
