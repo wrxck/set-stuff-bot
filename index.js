@@ -22,6 +22,8 @@ app.post('/', function (req, res) {
     } else if ('chat' in req.body['message']) {
       if ('text' in req.body['message']['chat']) {
         var message = req.body['message']['chat']['text'].split(' ')
+      } else {
+        var message = [undefined]
       }
     } else {
       var message = [undefined]
@@ -37,7 +39,7 @@ app.post('/', function (req, res) {
       sendMessage(req.body['message']['chat']['id'], 'Hi, I\'m Set Stuff Bot.')
       break;
     case '/set':
-      client.hset([req.body['message']['chat']['id'], message[0], message.slice(1)], function (err) {
+      client.hset([req.body['message']['chat']['id'], message[1], message.slice(2).join(' ')], function (err) {
         if (err) {
           sendMessage(req.body['message']['chat']['id'], 'Hmm... something went wrong. Try again.')
         } else {
@@ -52,7 +54,7 @@ app.post('/', function (req, res) {
             sendMessage(req.body['message']['chat']['id'], 'Hmm... something went wrong. Try again.')
           } else {
             if (resp) {
-              sendMessage(req.body['message']['chat']['id'], message[0] + ': ' + resp)
+              sendMessage(req.body['message']['chat']['id'], message[1] + ': ' + resp)
             } else {
               sendMessage(req.body['message']['chat']['id'], 'I don\'t think you\'ve saved that before.')
             }
