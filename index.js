@@ -50,14 +50,8 @@ app.post('/', function (req, res) {
     case '/start':
     case '/help':
       var reply = {
-        "chat_id": req.body['message']['chat']['id'],
-        "text": "Hi",
-        "reply_markup": {
-          "inline_keyboard": [[[{
-            "text": "Example",
-            "url": "http://google.com"
-          }]]]
-        }
+        chat_id: req.body['message']['chat']['id'],
+        text: 'Hi, I\'m Set Stuff Bot.\n\n/set - Set a variable\n/get - Get a variable\n\nFork me on GitHub - https://github.com/hstntn/set-stuff-bot'
       }
 
       console.log(reply['reply_markup']['inline_keyboard'][0])
