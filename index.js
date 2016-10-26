@@ -17,9 +17,7 @@ function sendMessage(chat_id, message, msg_reply) {
   if (msg_reply) {
     reply.reply_to_message_id = msg_reply
   }
-  request.post({url: 'https://api.telegram.org/bot' + token + '/sendMessage', form: reply}, function (err, resp, body) {
-    console.log(body)
-  })
+  request.post({url: 'https://api.telegram.org/bot' + token + '/sendMessage', form: reply})
 }
 
 app.use(bodyParser.json())
@@ -51,7 +49,22 @@ app.post('/', function (req, res) {
   switch (message['text'][0]) {
     case '/start':
     case '/help':
-      sendMessage(req.body['message']['chat']['id'], 'Hi, I\'m Set Stuff Bot.')
+      var reply = {
+        "chat_id": req.body['message']['chat']['id'],
+        "text": "Hi",
+        "reply_markup": {
+          "inline_keyboard": [[[{
+            "text": "Example",
+            "url": "http://google.com"
+          }]]]
+        }
+      }
+
+      console.log(reply['reply_markup']['inline_keyboard'][0])
+
+      request.post({url: 'https://api.telegram.org/bot' + token + '/sendMessage', form: reply}, function (err, resp, body) {
+        console.log(body)
+      })
       break;
     case '/set':
       client.hset([req.body['message']['chat']['id'], message['text'][1], message['text'].slice(2).join(' ')], function (err) {
