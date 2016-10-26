@@ -2,12 +2,14 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser')
 
+var redis = require('redis')
+var client = redis.createClient(process.env.REDIS_URL)
+
 var request = require('request')
 var token = process.env.TOKEN
 
 function sendMessage(chatId, message) {
   var reply = {chat_id: chatId, text: message}
-  console.log(reply)
   request.post({url: 'https://api.telegram.org/bot' + token + '/sendMessage', form: reply})
 }
 
@@ -33,6 +35,32 @@ app.post('/', function (req, res) {
     case '/start':
     case '/help':
       sendMessage(req.body['message']['chat']['id'], 'Hi, I\'m Set Stuff Bot.')
+      break;
+    case '/set':
+      client.hset([req.body['message']['chat']['id'], message[0], message.slice(1)], function (err) {
+        if (err) {
+          sendMessage(req.body['message']['chat']['id'], 'Hmm... something went wrong. Try again.')
+        } else {
+          sendMessage(req.body['message']['chat']['id'], 'Gotcha.')
+        }
+      })
+      break;
+    case '/get':
+      if (message[1]) {
+        client.send_command('hget', [req.body['message']['chat']['id'], message[1]], function (err, resp) {
+          if (err) {
+            sendMessage(req.body['message']['chat']['id'], 'Hmm... something went wrong. Try again.')
+          } else {
+            if (resp) {
+              sendMessage(req.body['message']['chat']['id'], message[0] + ': ' + resp)
+            } else {
+              sendMessage(req.body['message']['chat']['id'], 'I don\'t think you\'ve saved that before.')
+            }
+          }
+        })
+      } else {
+
+      }
       break;
   }
 
